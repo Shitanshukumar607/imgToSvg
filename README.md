@@ -1,12 +1,12 @@
-
 # 🖼️ Image to SVG Converter
 
 A simple web app that lets users upload any image (PNG/JPG) and instantly convert it into an **SVG** file.  
-Users can **preview**, **copy the SVG code**, or **download the file** to use anywhere.  
+Users can **preview**, **copy the SVG code**, or **download the file** to use anywhere.
 
 ---
 
 ## ✨ Features
+
 - 🚀 Upload images (PNG, JPG, JPEG)
 - 🔄 Convert raster images into scalable vector graphics (SVG)
 - 👀 Live preview of the generated SVG
@@ -17,19 +17,21 @@ Users can **preview**, **copy the SVG code**, or **download the file** to use an
 ---
 
 ## 🛠️ Tech Stack
-- **Frontend:** React / Next.js  
-- **Vectorization:** [ImageTracer.js](https://github.com/jankovicsandras/imagetracerjs)  
-- **Styling:** TailwindCSS (or your chosen framework)  
+
+- **Frontend:** React / Next.js
+- **Vectorization:** [ImageTracer.js](https://github.com/jankovicsandras/imagetracerjs)
+- **Styling:** TailwindCSS (or your chosen framework)
 
 ---
 
 ## 📦 Installation
 
 Clone the repository:
+
 ```bash
 git clone https://github.com/shitanshukumar607/imgToSvg.git
 cd imgToSvg
-````
+```
 
 Install dependencies:
 
@@ -58,14 +60,12 @@ Open [http://localhost:3000](http://localhost:3000) to view the app in the brows
 
 ## 📸 Screenshots
 
-
-
 ## 🔮 Future Improvements
 
-* ✏️ Basic SVG editor (resize, recolor, simplify paths)
-* 🎨 Presets (outline only, reduced colors, full color)
-* 📂 Support batch uploads
-* 🤖 AI-assisted vectorization for complex images
+- ✏️ Basic SVG editor (resize, recolor, simplify paths)
+- 🎨 Presets (outline only, reduced colors, full color)
+- 📂 Support batch uploads
+- 🤖 AI-assisted vectorization for complex images
 
 ---
 
