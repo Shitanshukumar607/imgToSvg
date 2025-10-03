@@ -96,7 +96,7 @@ const HeroSection = () => {
               whileTap={{ scale: 0.98 }}
               variants={item}
             >
-              <Link href="/leaderboard">
+              <Link href="/generate">
                 <Button
                   size="lg"
                   className="gap-2 bg-emerald-600 text-white hover:bg-emerald-700 dark:bg-violet-600 dark:hover:bg-violet-700 transition-transform cursor-pointer"
