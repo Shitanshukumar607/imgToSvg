@@ -48,9 +48,7 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center space-x-2 ml-auto">
-          <div className="flex justify-center items-center gap-x-4">
-            <ThemeToggle />
-          </div>
+          <ThemeToggle />
         </div>
       </div>
     </nav>
