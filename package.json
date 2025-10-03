@@ -7,7 +7,7 @@
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "next lint",
-    "prettier:check": "prettier --check .",
+    "prettier:check": "npx prettier --check .",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
