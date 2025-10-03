@@ -241,7 +241,7 @@ export default function UploadPage() {
               Upload and Convert Images
             </h1>
             <p className="text-slate-600 dark:text-neutral-400">
-              Upload and attach files to convert them to SVG format.
+              Upload images to convert them to SVG format.
             </p>
           </div>
 
