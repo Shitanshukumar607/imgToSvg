@@ -2,6 +2,7 @@ import Navbar from "@/components/NavbarComponents/Navbar";
 import { ThemeProvider } from "@/components/NavbarComponents/ThemeProvider";
 import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
+import Footer from "@/components/Footer/Footer";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -24,7 +25,8 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Navbar />
-          <main>{children}</main>
+          {children}
+          <Footer />
         </ThemeProvider>
       </body>
     </html>
