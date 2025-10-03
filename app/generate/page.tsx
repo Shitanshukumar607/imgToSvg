@@ -214,7 +214,7 @@ export default function UploadPage() {
       if (!/viewBox=/.test(svg)) {
         svg = svg.replace(
           /<svg([^>]*)>/,
-          `<svg$1 viewBox="0 0 ${width} ${height}" width="100%" height="100%">`
+          `<svg$1 viewBox="0 0 ${width} ${height}" width="100%" height="100%">`,
         );
       } else {
         // Still normalize width/height
