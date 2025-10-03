@@ -48,13 +48,13 @@ export async function POST(req: Request) {
         resolve(result);
       });
       uploadStream.end(buffer);
-    }
+    },
   );
 
   const svgString = await cloudinaryToSVG(cloudinaryResponse.secure_url);
 
   return NextResponse.json(
     { url: cloudinaryResponse.secure_url, svg: svgString },
-    { status: 201 }
+    { status: 201 },
   );
 }
