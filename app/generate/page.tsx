@@ -12,13 +12,14 @@ import {
   Upload,
   X,
 } from "lucide-react";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 interface UploadedFile {
   file: File;
   name: string;
   size: string;
   progress: number;
+  preview: string;
 }
 
 interface ApiResponse {
@@ -37,6 +38,16 @@ export default function UploadPage() {
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  useEffect(() => {
+    return () => {
+      uploadedFiles.forEach((file) => {
+        if (file.preview) {
+          URL.revokeObjectURL(file.preview);
+        }
+      });
+    };
+  }, [uploadedFiles]);
+
   const formatFileSize = (bytes: number): string => {
     if (bytes === 0) return "0 Bytes";
     const k = 1024;
@@ -46,26 +57,29 @@ export default function UploadPage() {
   };
 
   const handleFiles = (files: FileList) => {
-    const file = files[0]; // Only handle the first file
+    const file = files[0];
     if (!file) return;
 
-    // Check if it's an image
     if (!file.type.startsWith("image/")) {
       setError("Please select an image file");
       return;
     }
 
-    // Check file size (max 50MB)
-    if (file.size > 50 * 1024 * 1024) {
-      setError("File size must be less than 50MB");
+    // Check file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      setError("File size must be less than 5MB");
       return;
     }
+
+    // Create preview URL
+    const previewUrl = URL.createObjectURL(file);
 
     const newFile: UploadedFile = {
       file,
       name: file.name,
       size: formatFileSize(file.size),
       progress: 0,
+      preview: previewUrl,
     };
 
     setUploadedFiles([newFile]);
@@ -100,6 +114,12 @@ export default function UploadPage() {
   };
 
   const removeFile = () => {
+    uploadedFiles.forEach((file) => {
+      if (file.preview) {
+        URL.revokeObjectURL(file.preview);
+      }
+    });
+
     setUploadedFiles([]);
     setSvgResult(null);
     setError(null);
@@ -136,12 +156,12 @@ export default function UploadPage() {
       updateProgress(80);
 
       const data: ApiResponse = await res.json();
-      console.log(data)
+      console.log(data);
 
       updateProgress(100);
 
       if (data.success && data.svg) {
-        setSvgResult(data.svg);
+        setSvgResult(fixSvg(data.svg));
       } else {
         setError(data.error || "Failed to convert image to SVG");
       }
@@ -179,6 +199,32 @@ export default function UploadPage() {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+  };
+
+  const fixSvg = (svg: string) => {
+    // Find width and height in the <svg> tag
+    const widthMatch = svg.match(/width="(\d+)"/);
+    const heightMatch = svg.match(/height="(\d+)"/);
+
+    if (widthMatch && heightMatch) {
+      const width = widthMatch[1];
+      const height = heightMatch[1];
+
+      // If no viewBox exists, inject one
+      if (!/viewBox=/.test(svg)) {
+        svg = svg.replace(
+          /<svg([^>]*)>/,
+          `<svg$1 viewBox="0 0 ${width} ${height}" width="100%" height="100%">`
+        );
+      } else {
+        // Still normalize width/height
+        svg = svg
+          .replace(/width="[^"]*"/, 'width="100%"')
+          .replace(/height="[^"]*"/, 'height="100%"');
+      }
+    }
+
+    return svg;
   };
 
   return (
@@ -230,7 +276,7 @@ export default function UploadPage() {
                 or drag and drop
               </p>
               <p className="text-sm text-slate-500 dark:text-neutral-400">
-                Maximum file size 50 MB.
+                Maximum file size 5 MB.
               </p>
             </div>
           </div>
@@ -260,7 +306,7 @@ export default function UploadPage() {
                 exit={{ opacity: 0, y: -20 }}
                 className="mt-4 p-4 border border-slate-200 dark:border-neutral-600 rounded-lg"
               >
-                <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-3">
                     <File className="h-5 w-5 text-slate-500 dark:text-neutral-400" />
                     <div>
@@ -278,6 +324,20 @@ export default function UploadPage() {
                   >
                     <X className="h-5 w-5" />
                   </button>
+                </div>
+
+                {/* Image Preview */}
+                <div className="mb-4">
+                  <div className="bg-slate-100 dark:bg-neutral-700 rounded-lg p-4 flex items-center justify-center min-h-[200px]">
+                    <img
+                      src={file.preview}
+                      alt={file.name}
+                      className="max-w-full max-h-64 object-contain rounded-lg shadow-sm"
+                    />
+                  </div>
+                  <p className="text-xs text-slate-500 dark:text-neutral-400 mt-2 text-center">
+                    Original Image Preview
+                  </p>
                 </div>
 
                 {/* Progress Bar */}
@@ -299,7 +359,6 @@ export default function UploadPage() {
             ))}
           </AnimatePresence>
 
-          {/* Action Buttons */}
           {uploadedFiles.length > 0 && !svgResult && (
             <div className="mt-6 flex gap-3">
               <Button onClick={removeFile} variant="outline" className="flex-1">
@@ -330,16 +389,60 @@ export default function UploadPage() {
                 animate={{ opacity: 1, y: 0 }}
                 className="mt-6"
               >
-                <h3 className="text-lg font-semibold text-slate-900 dark:text-neutral-100 mb-3">
-                  SVG Code Generated Successfully
+                <h3 className="text-lg font-semibold text-slate-900 dark:text-neutral-100 mb-4">
+                  🎉 SVG Generated Successfully!
                 </h3>
 
-                <div className="bg-slate-50 dark:bg-neutral-700 rounded-lg p-4 mb-4">
-                  <pre className="text-sm text-slate-700 dark:text-neutral-300 overflow-x-auto whitespace-pre-wrap max-h-60">
-                    {svgResult}
-                  </pre>
+                {/* SVG Preview and Code Side by Side */}
+                <div className="grid md:grid-cols-2 gap-4 mb-6">
+                  {/* SVG Preview */}
+                  <div className="space-y-2">
+                    <h4 className="text-sm font-medium text-slate-700 dark:text-neutral-300">
+                      SVG Preview
+                    </h4>
+                    <div className="bg-white dark:bg-neutral-700 border-2 border-dashed border-slate-200 dark:border-neutral-600 rounded-lg p-2 flex items-center justify-center min-h-[250px] relative overflow-hidden">
+                      {/* Checkerboard background for transparency */}
+                      <div
+                        className="absolute inset-0 opacity-10"
+                        style={{
+                          backgroundImage: `
+                            linear-gradient(45deg, #ccc 25%, transparent 25%), 
+                            linear-gradient(-45deg, #ccc 25%, transparent 25%), 
+                            linear-gradient(45deg, transparent 75%, #ccc 75%), 
+                            linear-gradient(-45deg, transparent 75%, #ccc 75%)
+                          `,
+                          backgroundSize: "20px 20px",
+                          backgroundPosition:
+                            "0 0, 0 10px, 10px -10px, -10px 0px",
+                        }}
+                      />
+                      <div
+                        className="max-w-full max-h-full relative z-10 flex items-center justify-center"
+                        dangerouslySetInnerHTML={{ __html: svgResult }}
+                      />
+                    </div>
+                    <p className="text-xs text-slate-500 dark:text-neutral-400 text-center">
+                      Generated SVG Vector
+                    </p>
+                  </div>
+
+                  {/* SVG Code */}
+                  <div className="space-y-2">
+                    <h4 className="text-sm font-medium text-slate-700 dark:text-neutral-300">
+                      SVG Code
+                    </h4>
+                    <div className="bg-slate-50 dark:bg-neutral-800 rounded-lg p-4 border border-slate-200 dark:border-neutral-600">
+                      <pre className="text-xs text-slate-700 dark:text-neutral-300 overflow-auto whitespace-pre-wrap max-h-[230px] leading-relaxed">
+                        {svgResult}
+                      </pre>
+                    </div>
+                    <p className="text-xs text-slate-500 dark:text-neutral-400 text-center">
+                      Raw SVG Source Code
+                    </p>
+                  </div>
                 </div>
 
+                {/* Action Buttons */}
                 <div className="flex gap-3">
                   <Button
                     onClick={copyToClipboard}
@@ -365,6 +468,19 @@ export default function UploadPage() {
                     <Download className="h-4 w-4" />
                     Download SVG
                   </Button>
+                </div>
+
+                {/* Additional Info */}
+                <div className="mt-4 p-3 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-lg">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                    <p className="text-sm text-emerald-700 dark:text-emerald-300">
+                      <span className="font-medium">Success!</span> Your image
+                      has been converted to a scalable SVG vector. The SVG can
+                      be resized without losing quality and is perfect for web
+                      use.
+                    </p>
+                  </div>
                 </div>
               </motion.div>
             )}
