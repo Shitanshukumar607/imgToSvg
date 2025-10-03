@@ -1,5 +1,5 @@
 import { v2 as cloudinary, UploadApiResponse } from "cloudinary";
-// @ts-expect-error
+// @ts-expect-error: imagetracerjs has no TypeScript types
 import ImageTracer from "imagetracerjs";
 import { NextResponse } from "next/server";
 import fetch from "node-fetch";
