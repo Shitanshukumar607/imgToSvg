@@ -1,5 +1,5 @@
 import { v2 as cloudinary, UploadApiResponse } from "cloudinary";
-// @ts-ignore
+// @ts-expect-error
 import ImageTracer from "imagetracerjs";
 import { NextResponse } from "next/server";
 import fetch from "node-fetch";

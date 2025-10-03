@@ -4,7 +4,7 @@ import { useState } from "react";
 
 export default function UploadPage() {
   const [file, setFile] = useState<File | null>(null);
-  const [data, setData] = useState<String | null>(null);
+  const [data, setData] = useState<string | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
