@@ -157,7 +157,9 @@
   border: 2px solid transparent; /* creates padding */
   background-clip: padding-box;
   box-shadow: var(--sb-glow);
-  transition: background-color 150ms ease, transform 150ms ease;
+  transition:
+    background-color 150ms ease,
+    transform 150ms ease;
 }
 
 *::-webkit-scrollbar-thumb:hover {
