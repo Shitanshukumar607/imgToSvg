@@ -22,9 +22,8 @@ export default function Navbar() {
             className="text-lg font-bold text-slate-800 dark:text-neutral-100"
           >
             SVG{" "}
-            <span className="text-emerald-600 dark:text-violet-500">
-              From Img
-            </span>
+            <span className="text-emerald-600 dark:text-violet-500">From</span>{" "}
+            Img
           </Link>
         </div>
 
