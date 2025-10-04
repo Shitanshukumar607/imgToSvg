@@ -6,9 +6,8 @@ import { usePathname } from "next/navigation";
 import ThemeToggle from "./ThemeToggle";
 import AuthButtons from "./AuthButtons";
 
-export default  function Navbar() {
+export default function Navbar() {
   const pathname = usePathname();
-  
 
   const links = [
     { name: "Home", href: "/", icon: Home },
@@ -50,7 +49,7 @@ export default  function Navbar() {
 
         <div className="flex items-center space-x-2 ml-auto gap-3">
           <ThemeToggle />
-          <AuthButtons  />
+          <AuthButtons />
         </div>
       </div>
     </nav>

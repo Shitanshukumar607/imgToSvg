@@ -55,7 +55,7 @@ const Login = () => {
     setError(null);
 
     try {
-      const {  error } = await supabase.auth.signInWithOAuth({
+      const { error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
           redirectTo: `${process.env.SITE_URL}/auth/callback`,
