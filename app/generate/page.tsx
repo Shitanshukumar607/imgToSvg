@@ -202,7 +202,7 @@ export default function UploadPage() {
   };
 
   const fixSvg = (svg: string) => {
-    // Find width and height in the <svg> tag
+    // get width/height
     const widthMatch = svg.match(/width="(\d+)"/);
     const heightMatch = svg.match(/height="(\d+)"/);
 
@@ -210,17 +210,17 @@ export default function UploadPage() {
       const width = widthMatch[1];
       const height = heightMatch[1];
 
-      // If no viewBox exists, inject one
+      // make width/height to 100%
+      svg = svg
+        .replace(/width="[^"]*"/, 'width="100%"')
+        .replace(/height="[^"]*"/, 'height="100%"');
+
+      // add viewBox if missing
       if (!/viewBox=/.test(svg)) {
         svg = svg.replace(
           /<svg([^>]*)>/,
-          `<svg$1 viewBox="0 0 ${width} ${height}" width="100%" height="100%">`,
+          `<svg$1 viewBox="0 0 ${width} ${height}">`
         );
-      } else {
-        // Still normalize width/height
-        svg = svg
-          .replace(/width="[^"]*"/, 'width="100%"')
-          .replace(/height="[^"]*"/, 'height="100%"');
       }
     }
 
