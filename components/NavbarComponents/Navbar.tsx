@@ -4,6 +4,7 @@ import { Home, ImageUp } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import ThemeToggle from "./ThemeToggle";
+import AuthButtons from "./AuthButtons";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -46,8 +47,9 @@ export default function Navbar() {
           </div>
         </div>
 
-        <div className="flex items-center space-x-2 ml-auto">
+        <div className="flex items-center space-x-2 ml-auto gap-3">
           <ThemeToggle />
+          <AuthButtons />
         </div>
       </div>
     </nav>
