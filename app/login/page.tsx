@@ -18,8 +18,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { createClient } from "@/lib/supabase/client";
 import { Provider } from "@supabase/supabase-js";
+import Image from "next/image";
 import Link from "next/link";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const Login = () => {
@@ -89,7 +90,7 @@ const Login = () => {
                       variant="outline"
                       type="button"
                     >
-                      <img
+                      <Image
                         width="24"
                         height="24"
                         src="https://img.icons8.com/material-outlined/24/github.png"
@@ -102,7 +103,7 @@ const Login = () => {
                       variant="outline"
                       type="button"
                     >
-                      <img
+                      <Image
                         width="24"
                         height="24"
                         src="https://img.icons8.com/material-rounded/24/google-logo.png"

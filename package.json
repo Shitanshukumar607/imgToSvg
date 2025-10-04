@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "prettier:check": "npx prettier --check .",
+    "prettier:write": "npx prettier --write .",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
