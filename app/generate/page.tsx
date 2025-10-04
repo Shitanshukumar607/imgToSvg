@@ -12,6 +12,7 @@ import {
   Upload,
   X,
 } from "lucide-react";
+import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 interface UploadedFile {
@@ -56,46 +57,50 @@ export default function UploadPage() {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
   };
 
-  const handleFiles = (files: FileList) => {
-    const file = files[0];
-    if (!file) return;
+  const handleFiles = useCallback(
+    (files: FileList) => {
+      const file = files[0];
+      if (!file) return;
 
-    if (!file.type.startsWith("image/")) {
-      setError("Please select an image file");
-      return;
-    }
+      if (!file.type.startsWith("image/")) {
+        setError("Please select an image file");
+        return;
+      }
 
-    // Check file size (max 5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      setError("File size must be less than 5MB");
-      return;
-    }
+      if (file.size > 5 * 1024 * 1024) {
+        setError("File size must be less than 5MB");
+        return;
+      }
 
-    // Create preview URL
-    const previewUrl = URL.createObjectURL(file);
+      const previewUrl = URL.createObjectURL(file);
 
-    const newFile: UploadedFile = {
-      file,
-      name: file.name,
-      size: formatFileSize(file.size),
-      progress: 0,
-      preview: previewUrl,
-    };
+      const newFile: UploadedFile = {
+        file,
+        name: file.name,
+        size: formatFileSize(file.size),
+        progress: 0,
+        preview: previewUrl,
+      };
 
-    setUploadedFiles([newFile]);
-    setError(null);
-    setSvgResult(null);
-  };
+      setUploadedFiles([newFile]);
+      setError(null);
+      setSvgResult(null);
+    },
+    [setError, setUploadedFiles, setSvgResult],
+  );
 
-  const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setIsDragActive(false);
+  const handleDrop = useCallback(
+    (e: React.DragEvent<HTMLDivElement>) => {
+      e.preventDefault();
+      setIsDragActive(false);
 
-    const files = e.dataTransfer.files;
-    if (files.length > 0) {
-      handleFiles(files);
-    }
-  }, []);
+      const files = e.dataTransfer.files;
+      if (files.length > 0) {
+        handleFiles(files);
+      }
+    },
+    [handleFiles],
+  );
 
   const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -329,7 +334,7 @@ export default function UploadPage() {
                 {/* Image Preview */}
                 <div className="mb-4">
                   <div className="bg-slate-100 dark:bg-neutral-700 rounded-lg p-4 flex items-center justify-center min-h-[200px]">
-                    <img
+                    <Image
                       src={file.preview}
                       alt={file.name}
                       className="max-w-full max-h-64 object-contain rounded-lg shadow-sm"
