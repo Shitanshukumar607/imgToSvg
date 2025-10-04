@@ -17,8 +17,8 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { createClient } from "@/lib/supabase/client";
-import { Provider } from "@supabase/supabase-js";
 import Image from "next/image";
+import type { Provider } from "@supabase/supabase-js";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
