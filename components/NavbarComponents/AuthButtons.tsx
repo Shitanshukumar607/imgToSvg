@@ -12,7 +12,6 @@ const AuthButtons = () => {
   useEffect(() => {
     const fetchUser = async () => {
       const { data } = await supabase.auth.getUser();
-      console.log(data);
       setUser(data.user);
       setLoading(false);
     };
