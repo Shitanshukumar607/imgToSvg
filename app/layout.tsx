@@ -3,6 +3,7 @@ import { ThemeProvider } from "@/components/NavbarComponents/ThemeProvider";
 import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/Footer/Footer";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -26,6 +27,7 @@ export default function RootLayout({
         >
           <Navbar />
           <main>{children}</main>
+          <SpeedInsights />
           <Footer />
         </ThemeProvider>
       </body>
