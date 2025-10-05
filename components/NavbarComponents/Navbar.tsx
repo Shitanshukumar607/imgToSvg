@@ -1,6 +1,6 @@
 "use client";
 
-import { Home, ImageUp } from "lucide-react";
+import { Home, ImageUp, LibraryBig } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import ThemeToggle from "./ThemeToggle";
@@ -12,6 +12,7 @@ export default function Navbar() {
   const links = [
     { name: "Home", href: "/", icon: Home },
     { name: "Generate", href: "/generate", icon: ImageUp },
+    { name: "Collections", href: "/collections", icon: LibraryBig },
   ];
 
   return (
