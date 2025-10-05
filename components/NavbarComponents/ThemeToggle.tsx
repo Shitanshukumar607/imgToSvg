@@ -2,10 +2,15 @@
 
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function ThemeToggle() {
   const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
@@ -18,6 +23,8 @@ export default function ThemeToggle() {
     window.addEventListener("keydown", handleKeyPress);
     return () => window.removeEventListener("keydown", handleKeyPress);
   }, [theme, setTheme]);
+
+  if (!mounted) return null;
 
   return (
     <button
