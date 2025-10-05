@@ -338,6 +338,7 @@ export default function UploadPage() {
                       src={file.preview}
                       alt={file.name}
                       className="max-w-full max-h-64 object-contain rounded-lg shadow-sm"
+                      loading="lazy"
                     />
                   </div>
                   <p className="text-xs text-slate-500 dark:text-neutral-400 mt-2 text-center">
