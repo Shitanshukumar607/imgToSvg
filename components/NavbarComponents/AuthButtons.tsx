@@ -12,7 +12,10 @@ const AuthButtons = () => {
   useEffect(() => {
     const fetchUser = async () => {
       const { data } = await supabase.auth.getUser();
-      if (data.user) setUser(data.user.user_metadata.name);
+
+      setUser(
+        data?.user?.user_metadata?.name || data?.user?.email?.split("@")[0],
+      );
       setLoading(false);
     };
     fetchUser();
