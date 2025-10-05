@@ -71,10 +71,11 @@ export async function POST(req: Request) {
       },
       { status: 201 }
     );
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Upload error:", err);
+    const errorMessage = err instanceof Error ? err.message : "Internal Server Error";
     return NextResponse.json(
-      { success: false, error: err.message || "Internal Server Error" },
+      { success: false, error: errorMessage },
       { status: 500 }
     );
   }

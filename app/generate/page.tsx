@@ -12,7 +12,6 @@ import {
   Upload,
   X,
 } from "lucide-react";
-import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 interface UploadedFile {
