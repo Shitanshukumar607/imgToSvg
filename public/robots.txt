@@ -3,11 +3,6 @@
 # ====================================
 
 User-agent: *
-Disallow: /
-
-# Allowed routes
-Allow: /generate
-Allow: /collections
 
 # Block common sensitive paths
 Disallow: /admin
