@@ -3,11 +3,6 @@
 # ====================================
 
 User-agent: *
-Disallow: /
-
-# Allowed routes
-Allow: /generate
-Allow: /collections
 
 # Block common sensitive paths
 Disallow: /admin
@@ -36,4 +31,4 @@ Allow: /collections
 # 📍 Sitemap
 # ====================================
 
-Sitemap: https://gssoc-tracker.netlify.app/sitemap.xml
+Sitemap: https://svg-from-img.vercel.app/sitemap.xml
