@@ -1,0 +1,34 @@
+# ====================================
+# 🤖 General Settings
+# ====================================
+
+User-agent: *
+
+# Block common sensitive paths
+Disallow: /admin
+Disallow: /api
+Disallow: /private
+Disallow: /.netlify
+
+# Recommended Crawl Delay (some bots may ignore)
+Crawl-delay: 10
+
+# ====================================
+# 🔍 Search Engine Specific Rules
+# ====================================
+
+# Googlebot
+User-agent: Googlebot
+Allow: /generate
+Allow: /collections
+
+# Bingbot
+User-agent: Bingbot
+Allow: /generate
+Allow: /collections
+
+# ====================================
+# 📍 Sitemap
+# ====================================
+
+Sitemap: https://svg-from-img.vercel.app/sitemap.xml
