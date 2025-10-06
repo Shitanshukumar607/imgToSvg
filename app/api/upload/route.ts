@@ -3,7 +3,7 @@ import { v2 as cloudinary, UploadApiResponse } from "cloudinary";
 import ImageTracer from "imagetracerjs";
 import { NextResponse } from "next/server";
 import fetch from "node-fetch";
-import { PNG } from "pngjs";
+import sharp from "sharp";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
@@ -17,12 +17,19 @@ async function cloudinaryToSVG(imageUrl: string, options = { scale: 5 }) {
     throw new Error(`Failed to fetch image: ${response.statusText}`);
   const buffer = Buffer.from(await response.arrayBuffer());
 
-  const png = PNG.sync.read(buffer);
+  const image = sharp(buffer).ensureAlpha(); // ensures RGBA format
+  const { width, height } = await image.metadata();
+
+  if (!width || !height) {
+    throw new Error("Unable to read image metadata.");
+  }
+
+  const raw = await image.raw().toBuffer();
 
   const myImageData = {
-    width: png.width,
-    height: png.height,
-    data: png.data,
+    width,
+    height,
+    data: raw,
   };
 
   const svgstring = ImageTracer.imagedataToSVG(myImageData, options);
@@ -30,31 +37,47 @@ async function cloudinaryToSVG(imageUrl: string, options = { scale: 5 }) {
 }
 
 export async function POST(req: Request) {
-  const formData = await req.formData();
-  const file = formData.get("image") as File;
+  try {
+    const formData = await req.formData();
+    const file = formData.get("image") as File;
 
-  if (!file) {
-    return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
+    if (!file) {
+      return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
+    }
+
+    const bytes = await file.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+
+    const cloudinaryResponse: UploadApiResponse = await new Promise(
+      (resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+          { resource_type: "image" },
+          (err, result) => {
+            if (err || !result) return reject(err);
+            resolve(result);
+          },
+        );
+        uploadStream.end(buffer);
+      },
+    );
+
+    const svgString = await cloudinaryToSVG(cloudinaryResponse.secure_url);
+
+    return NextResponse.json(
+      {
+        url: cloudinaryResponse.secure_url,
+        svg: svgString,
+        success: true,
+      },
+      { status: 201 },
+    );
+  } catch (err: unknown) {
+    console.error("Upload error:", err);
+    const errorMessage =
+      err instanceof Error ? err.message : "Internal Server Error";
+    return NextResponse.json(
+      { success: false, error: errorMessage },
+      { status: 500 },
+    );
   }
-
-  // Read file as buffer
-  const bytes = await file.arrayBuffer();
-  const buffer = Buffer.from(bytes);
-
-  const cloudinaryResponse: UploadApiResponse = await new Promise(
-    (resolve, reject) => {
-      const uploadStream = cloudinary.uploader.upload_stream((err, result) => {
-        if (err || !result) return reject(err);
-        resolve(result);
-      });
-      uploadStream.end(buffer);
-    },
-  );
-
-  const svgString = await cloudinaryToSVG(cloudinaryResponse.secure_url);
-
-  return NextResponse.json(
-    { url: cloudinaryResponse.secure_url, svg: svgString, success: true },
-    { status: 201 },
-  );
 }

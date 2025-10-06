@@ -12,7 +12,6 @@ import {
   Upload,
   X,
 } from "lucide-react";
-import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 interface UploadedFile {
@@ -334,10 +333,11 @@ export default function UploadPage() {
                 {/* Image Preview */}
                 <div className="mb-4">
                   <div className="bg-slate-100 dark:bg-neutral-700 rounded-lg p-4 flex items-center justify-center min-h-[200px]">
-                    <Image
+                    <img
                       src={file.preview}
                       alt={file.name}
                       className="max-w-full max-h-64 object-contain rounded-lg shadow-sm"
+                      loading="lazy"
                     />
                   </div>
                   <p className="text-xs text-slate-500 dark:text-neutral-400 mt-2 text-center">
