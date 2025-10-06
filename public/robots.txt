@@ -36,4 +36,4 @@ Allow: /collections
 # 📍 Sitemap
 # ====================================
 
-Sitemap: https://gssoc-tracker.netlify.app/sitemap.xml
+Sitemap: https://svg-from-img.vercel.app/sitemap.xml
