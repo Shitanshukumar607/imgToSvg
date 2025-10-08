@@ -509,7 +509,7 @@ export default function UploadPage() {
                   >
                     <h4 className="text-lg font-semibold text-slate-800 dark:text-neutral-200 flex items-center gap-2">
                       <div className="w-2 h-2 bg-emerald-500 dark:bg-violet-500 rounded-full"></div>
-                      SVG Preview
+                      Generated SVG Preview
                     </h4>
                     <div className="bg-gradient-to-br from-white to-slate-50 dark:from-neutral-700 dark:to-neutral-800 border-2 border-dashed border-emerald-200 dark:border-violet-400/40 rounded-xl p-6 flex items-center justify-center min-h-[300px] relative overflow-hidden shadow-inner">
                       {/* Checkerboard background for transparency */}
@@ -532,9 +532,6 @@ export default function UploadPage() {
                         dangerouslySetInnerHTML={{ __html: svgResult }}
                       />
                     </div>
-                    <p className="text-sm text-slate-600 dark:text-neutral-400 text-center font-medium mt-4">
-                      🎨 Generated SVG Vector
-                    </p>
                   </motion.div>
 
                   {/* SVG Code */}
@@ -546,16 +543,13 @@ export default function UploadPage() {
                   >
                     <h4 className="text-lg font-semibold text-slate-800 dark:text-neutral-200 flex items-center gap-2">
                       <div className="w-2 h-2 bg-emerald-500 dark:bg-violet-500 rounded-full"></div>
-                      SVG Code
+                      Raw SVG Code
                     </h4>
                     <div className="bg-slate-50 dark:bg-neutral-800 rounded-xl p-6 border border-slate-200 dark:border-neutral-600 shadow-inner">
                       <pre className="text-sm text-slate-700 dark:text-neutral-300 overflow-auto whitespace-pre-wrap max-h-[280px] leading-relaxed font-mono">
                         {svgResult}
                       </pre>
                     </div>
-                    <p className="text-sm text-slate-600 dark:text-neutral-400 text-center font-medium">
-                      📝 Raw SVG Source Code
-                    </p>
                   </motion.div>
                 </div>
 
