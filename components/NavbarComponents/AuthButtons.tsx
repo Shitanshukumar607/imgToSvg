@@ -1,30 +1,24 @@
 "use client";
 
 import { createClient } from "@/lib/supabase/client";
+import { useUser, useUserStore } from "@/store/userStore";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 const AuthButtons = () => {
+  const user = useUser();
+  const { clearUser } = useUserStore();
   const supabase = createClient();
-  const [user, setUser] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const { data } = await supabase.auth.getUser();
-
-      setUser(
-        data?.user?.user_metadata?.name || data?.user?.email?.split("@")[0],
-      );
-      setLoading(false);
-    };
-    fetchUser();
-  }, [supabase.auth]);
+  const router = useRouter();
 
   const handleLogout = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (!error) setUser(null);
-    else throw error;
+    try {
+      await supabase.auth.signOut();
+      clearUser();
+      router.push("/");
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
   };
 
   return (
@@ -35,9 +29,7 @@ const AuthButtons = () => {
           className="hidden sm:flex text-xs border border-emerald-500 dark:border-purple-500 px-3 py-1.5 rounded-md hover:bg-emerald-100 dark:hover:bg-violet-900 transition-colors duration-200 items-center gap-1.5"
         >
           <span>Logout</span>
-          {!loading && (
-            <span className="text-xs opacity-70">{`(${user})`}</span>
-          )}
+          <span className="text-xs opacity-70">{`(${user.email.split("@")[0]})`}</span>
         </button>
       ) : (
         <Link

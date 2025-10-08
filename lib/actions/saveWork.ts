@@ -7,7 +7,7 @@ export async function saveWork(
   description: string,
   imageUrl: string,
   svgUrl: string,
-  svgData: string
+  svgData: string,
 ) {
   const { data, error } = await supabase.from("works").insert([
     {

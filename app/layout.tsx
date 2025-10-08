@@ -1,5 +1,6 @@
 import Navbar from "@/components/NavbarComponents/Navbar";
 import { ThemeProvider } from "@/components/NavbarComponents/ThemeProvider";
+import { AuthProvider } from "@/components/AuthProvider/AuthProvider";
 import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/Footer/Footer";
@@ -25,10 +26,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar />
-          <main>{children}</main>
-          <SpeedInsights />
-          <Footer />
+          <AuthProvider>
+            <Navbar />
+            <main>{children}</main>
+            <SpeedInsights />
+            <Footer />
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

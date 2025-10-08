@@ -86,7 +86,7 @@ export default function UploadPage() {
       setError(null);
       setSvgResult(null);
     },
-    [setError, setUploadedFiles, setSvgResult]
+    [setError, setUploadedFiles, setSvgResult],
   );
 
   const handleDrop = useCallback(
@@ -99,7 +99,7 @@ export default function UploadPage() {
         handleFiles(files);
       }
     },
-    [handleFiles]
+    [handleFiles],
   );
 
   const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
@@ -181,7 +181,7 @@ export default function UploadPage() {
         "Sample Description",
         "https://example.com/image.png",
         "https://example.com/image.svg",
-        svgResult || ""
+        svgResult || "",
       );
     }
   };
@@ -232,7 +232,7 @@ export default function UploadPage() {
       if (!/viewBox=/.test(svg)) {
         svg = svg.replace(
           /<svg([^>]*)>/,
-          `<svg$1 viewBox="0 0 ${width} ${height}">`
+          `<svg$1 viewBox="0 0 ${width} ${height}">`,
         );
       }
     }
@@ -407,8 +407,8 @@ export default function UploadPage() {
                       {file.progress === 0
                         ? "Ready to convert"
                         : file.progress < 100
-                        ? `Converting... ${file.progress}%`
-                        : "Conversion complete!"}
+                          ? `Converting... ${file.progress}%`
+                          : "Conversion complete!"}
                     </span>
                     {file.progress === 100 && !isUploading && (
                       <motion.div
