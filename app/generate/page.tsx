@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { saveWork } from "@/lib/actions/saveWork";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   AlertCircle,
@@ -85,7 +86,7 @@ export default function UploadPage() {
       setError(null);
       setSvgResult(null);
     },
-    [setError, setUploadedFiles, setSvgResult],
+    [setError, setUploadedFiles, setSvgResult]
   );
 
   const handleDrop = useCallback(
@@ -98,7 +99,7 @@ export default function UploadPage() {
         handleFiles(files);
       }
     },
-    [handleFiles],
+    [handleFiles]
   );
 
   const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
@@ -174,6 +175,14 @@ export default function UploadPage() {
       setError("Failed to upload image. Please try again.");
     } finally {
       setIsUploading(false);
+      saveWork(
+        // "085c190b-63be-4e54-81cf-7665e558493d",
+        "Sample Title",
+        "Sample Description",
+        "https://example.com/image.png",
+        "https://example.com/image.svg",
+        svgResult || ""
+      );
     }
   };
 
@@ -223,7 +232,7 @@ export default function UploadPage() {
       if (!/viewBox=/.test(svg)) {
         svg = svg.replace(
           /<svg([^>]*)>/,
-          `<svg$1 viewBox="0 0 ${width} ${height}">`,
+          `<svg$1 viewBox="0 0 ${width} ${height}">`
         );
       }
     }
@@ -398,8 +407,8 @@ export default function UploadPage() {
                       {file.progress === 0
                         ? "Ready to convert"
                         : file.progress < 100
-                          ? `Converting... ${file.progress}%`
-                          : "Conversion complete!"}
+                        ? `Converting... ${file.progress}%`
+                        : "Conversion complete!"}
                     </span>
                     {file.progress === 100 && !isUploading && (
                       <motion.div
