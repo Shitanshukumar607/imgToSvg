@@ -70,8 +70,8 @@ const NotFound = () => {
             className="text-lg text-slate-600 dark:text-neutral-400 max-w-lg mx-auto mb-10"
             variants={item}
           >
-            The page you're looking for seems to have wandered off into the
-            digital void. Don't worry, it happens to the best of us!
+            The page you&apos;re looking for seems to have wandered off into the
+            digital void. Don&apos;t worry, it happens to the best of us!
           </motion.p>
 
           {/* Action Buttons */}
