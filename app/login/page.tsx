@@ -71,13 +71,21 @@ const Login = () => {
   };
 
   return (
-    <div className="bg-zinc-50 dark:bg-neutral-900/80 flex min-h-svh w-full items-center justify-center p-6 md:p-10">
-      <div className="w-full max-w-sm">
+    <section className="relative overflow-hidden bg-zinc-50 dark:bg-neutral-900/80 flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+      <div className="hidden sm:block absolute top-10 left-10 h-16 w-16 border-t-2 border-l-2 border-emerald-400 dark:border-violet-500 opacity-60 rounded-tl-lg" />
+      <div className="hidden sm:block absolute bottom-10 right-10 h-20 w-20 border-b-2 border-r-2 border-emerald-400 dark:border-violet-500 opacity-60 rounded-br-lg" />
+
+      <div className="absolute top-1/3 -left-6 w-24 h-24 border border-emerald-300 dark:border-violet-400/40 rounded-full opacity-30" />
+      <div className="absolute bottom-1/4 -right-8 w-20 h-20 border border-emerald-300 dark:border-violet-400/40 rotate-12 opacity-30" />
+
+      <div className="w-full max-w-sm relative z-10">
         <div className="flex flex-col gap-6">
-          <Card>
+          <Card className="border-emerald-200/50 dark:border-violet-500/30 shadow-lg">
             <CardHeader className="text-center">
-              <CardTitle className="text-xl">Welcome back</CardTitle>
-              <CardDescription>
+              <CardTitle className="text-xl text-slate-900 dark:text-neutral-100">
+                Welcome back
+              </CardTitle>
+              <CardDescription className="text-slate-600 dark:text-neutral-400">
                 Login with your GitHub or Google account
               </CardDescription>
             </CardHeader>
@@ -89,6 +97,7 @@ const Login = () => {
                       onClick={() => handleOAuthLogin("github")}
                       variant="outline"
                       type="button"
+                      className="border-emerald-200 text-slate-700 hover:bg-emerald-50 hover:border-emerald-300 dark:border-violet-400/40 dark:text-neutral-300 dark:hover:bg-violet-500/10 dark:hover:border-violet-400"
                     >
                       <Image
                         width="24"
@@ -102,6 +111,7 @@ const Login = () => {
                       onClick={() => handleOAuthLogin("google")}
                       variant="outline"
                       type="button"
+                      className="border-emerald-200 text-slate-700 hover:bg-emerald-50 hover:border-emerald-300 dark:border-violet-400/40 dark:text-neutral-300 dark:hover:bg-violet-500/10 dark:hover:border-violet-400"
                     >
                       <GoogleIcon className="size-8" />
                       Login with Google
@@ -143,7 +153,7 @@ const Login = () => {
                   <Field>
                     <Button
                       type="submit"
-                      className="w-full"
+                      className="w-full bg-emerald-600 text-white hover:bg-emerald-700 dark:bg-violet-600 dark:hover:bg-violet-700 transition-colors"
                       disabled={isLoading}
                     >
                       {isLoading ? "Logging in..." : "Login"}
@@ -159,7 +169,7 @@ const Login = () => {
           </Card>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
