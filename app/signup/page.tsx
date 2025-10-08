@@ -73,15 +73,23 @@ const Signup = () => {
   };
 
   return (
-    <section className="flex min-h-svh flex-col items-center justify-center p-6 md:p-10">
-      <div className="w-full max-w-sm md:max-w-md flex flex-col gap-6">
-        <Card className="overflow-hidden p-0">
+    <section className="relative overflow-hidden bg-zinc-50 dark:bg-neutral-900/80 flex min-h-svh flex-col items-center justify-center p-6 md:p-10">
+      <div className="hidden sm:block absolute top-10 left-10 h-16 w-16 border-t-2 border-l-2 border-emerald-400 dark:border-violet-500 opacity-60 rounded-tl-lg" />
+      <div className="hidden sm:block absolute bottom-10 right-10 h-20 w-20 border-b-2 border-r-2 border-emerald-400 dark:border-violet-500 opacity-60 rounded-br-lg" />
+
+      <div className="absolute top-1/3 -left-6 w-24 h-24 border border-emerald-300 dark:border-violet-400/40 rounded-full opacity-30" />
+      <div className="absolute bottom-1/4 -right-8 w-20 h-20 border border-emerald-300 dark:border-violet-400/40 rotate-12 opacity-30" />
+
+      <div className="w-full max-w-sm md:max-w-md flex flex-col gap-6 relative z-10">
+        <Card className="overflow-hidden p-0 border-emerald-200/50 dark:border-violet-500/30 shadow-lg">
           <CardContent>
             <form className="px-2 py-6" onSubmit={handleSignup}>
               <FieldGroup>
                 <div className="flex flex-col items-center gap-2 text-center">
-                  <h1 className="text-2xl font-bold">Create your account</h1>
-                  <p className="text-muted-foreground text-sm text-balance">
+                  <h1 className="text-2xl font-bold text-slate-900 dark:text-neutral-100">
+                    Create your account
+                  </h1>
+                  <p className="text-slate-600 dark:text-neutral-400 text-sm text-balance">
                     Enter your email below to create your account
                   </p>
                 </div>
@@ -127,7 +135,11 @@ const Signup = () => {
                 </Field>
                 {error && <p className="text-sm text-red-500">{error}</p>}
                 <Field>
-                  <Button type="submit" disabled={isLoading}>
+                  <Button
+                    type="submit"
+                    disabled={isLoading}
+                    className="w-full bg-emerald-600 text-white hover:bg-emerald-700 dark:bg-violet-600 dark:hover:bg-violet-700 transition-colors"
+                  >
                     {isLoading ? "Creating Account..." : "Create Account"}
                   </Button>
                 </Field>
@@ -139,6 +151,7 @@ const Signup = () => {
                     variant="outline"
                     type="button"
                     onClick={() => handleOAuthLogin("github")}
+                    className="border-emerald-200 text-slate-700 hover:bg-emerald-50 hover:border-emerald-300 dark:border-violet-400/40 dark:text-neutral-300 dark:hover:bg-violet-500/10 dark:hover:border-violet-400"
                   >
                     <Image
                       width="24"
@@ -152,6 +165,7 @@ const Signup = () => {
                     variant="outline"
                     type="button"
                     onClick={() => handleOAuthLogin("google")}
+                    className="border-emerald-200 text-slate-700 hover:bg-emerald-50 hover:border-emerald-300 dark:border-violet-400/40 dark:text-neutral-300 dark:hover:bg-violet-500/10 dark:hover:border-violet-400"
                   >
                     <GoogleIcon className="size-8" />
                     <span className="sr-only">Sign up with Google</span>
