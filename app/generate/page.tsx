@@ -85,7 +85,7 @@ export default function UploadPage() {
       setError(null);
       setSvgResult(null);
     },
-    [setError, setUploadedFiles, setSvgResult],
+    [setError, setUploadedFiles, setSvgResult]
   );
 
   const handleDrop = useCallback(
@@ -98,7 +98,7 @@ export default function UploadPage() {
         handleFiles(files);
       }
     },
-    [handleFiles],
+    [handleFiles]
   );
 
   const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
@@ -223,7 +223,7 @@ export default function UploadPage() {
       if (!/viewBox=/.test(svg)) {
         svg = svg.replace(
           /<svg([^>]*)>/,
-          `<svg$1 viewBox="0 0 ${width} ${height}">`,
+          `<svg$1 viewBox="0 0 ${width} ${height}">`
         );
       }
     }
@@ -398,8 +398,8 @@ export default function UploadPage() {
                       {file.progress === 0
                         ? "Ready to convert"
                         : file.progress < 100
-                          ? `Converting... ${file.progress}%`
-                          : "Conversion complete!"}
+                        ? `Converting... ${file.progress}%`
+                        : "Conversion complete!"}
                     </span>
                     {file.progress === 100 && !isUploading && (
                       <motion.div
@@ -569,31 +569,6 @@ export default function UploadPage() {
                     <Download className="h-5 w-5 mr-2" />
                     Download SVG
                   </Button>
-                </motion.div>
-
-                {/* Additional Info */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 }}
-                  className="mt-6 p-6 bg-gradient-to-r from-emerald-50 to-green-50 dark:from-emerald-900/20 dark:to-green-900/20 border border-emerald-200 dark:border-emerald-700/50 rounded-xl"
-                >
-                  <div className="flex items-start gap-4">
-                    <div className="w-8 h-8 bg-emerald-100 dark:bg-emerald-800/50 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                      <CheckCircle className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-emerald-800 dark:text-emerald-300 mb-2">
-                        🚀 Conversion Complete!
-                      </h4>
-                      <p className="text-sm text-emerald-700 dark:text-emerald-300 leading-relaxed">
-                        Your image has been successfully converted to a scalable
-                        SVG vector. The generated SVG can be resized infinitely
-                        without losing quality, making it perfect for responsive
-                        web design, logos, and high-DPI displays.
-                      </p>
-                    </div>
-                  </div>
                 </motion.div>
               </motion.div>
             )}
