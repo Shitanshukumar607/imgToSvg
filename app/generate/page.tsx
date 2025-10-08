@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { saveWork } from "@/lib/actions/saveWork";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   AlertCircle,
@@ -175,14 +174,6 @@ export default function UploadPage() {
       setError("Failed to upload image. Please try again.");
     } finally {
       setIsUploading(false);
-      saveWork(
-        // "085c190b-63be-4e54-81cf-7665e558493d",
-        "Sample Title",
-        "Sample Description",
-        "https://example.com/image.png",
-        "https://example.com/image.svg",
-        svgResult || "",
-      );
     }
   };
 
