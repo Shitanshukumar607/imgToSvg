@@ -52,27 +52,33 @@ export function Pagination({
   if (totalPages <= 1) return null;
 
   return (
-    <div className="flex items-center justify-center space-x-2">
+    <div className="flex items-center justify-center space-x-3 bg-white/80 dark:bg-neutral-800/80 backdrop-blur-sm border border-emerald-200/50 dark:border-violet-500/30 rounded-2xl p-4 shadow-xl">
       <Button
         variant="outline"
-        size="sm"
+        size="lg"
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage <= 1}
+        className="border-emerald-200 dark:border-violet-400/40 hover:bg-emerald-50 dark:hover:bg-violet-500/10 text-slate-700 dark:text-neutral-300 disabled:opacity-50 rounded-xl font-semibold px-6"
       >
-        <ChevronLeft className="h-4 w-4" />
+        <ChevronLeft className="h-5 w-5 mr-2" />
         Previous
       </Button>
 
-      <div className="flex items-center space-x-1">
+      <div className="flex items-center space-x-2">
         {getPageNumbers().map((page, index) => (
           <div key={index}>
             {page === "..." ? (
-              <span className="px-3 py-2 text-muted-foreground">...</span>
+              <span className="px-4 py-2 text-slate-500 dark:text-neutral-400 font-semibold">...</span>
             ) : (
               <Button
                 variant={currentPage === page ? "default" : "outline"}
-                size="sm"
+                size="lg"
                 onClick={() => onPageChange(page as number)}
+                className={
+                  currentPage === page
+                    ? "bg-emerald-600 hover:bg-emerald-700 dark:bg-violet-600 dark:hover:bg-violet-700 text-white rounded-xl font-bold min-w-12 shadow-lg"
+                    : "border-emerald-200 dark:border-violet-400/40 hover:bg-emerald-50 dark:hover:bg-violet-500/10 text-slate-700 dark:text-neutral-300 rounded-xl font-semibold min-w-12"
+                }
               >
                 {page}
               </Button>
@@ -83,12 +89,13 @@ export function Pagination({
 
       <Button
         variant="outline"
-        size="sm"
+        size="lg"
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage >= totalPages}
+        className="border-emerald-200 dark:border-violet-400/40 hover:bg-emerald-50 dark:hover:bg-violet-500/10 text-slate-700 dark:text-neutral-300 disabled:opacity-50 rounded-xl font-semibold px-6"
       >
         Next
-        <ChevronRight className="h-4 w-4" />
+        <ChevronRight className="h-5 w-5 ml-2" />
       </Button>
     </div>
   );

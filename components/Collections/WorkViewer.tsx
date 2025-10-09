@@ -52,66 +52,67 @@ export function WorkViewer({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
           onClick={onClose}
         >
           <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.9, opacity: 0 }}
-            className="relative max-w-4xl w-full max-h-[90vh] overflow-auto"
+            initial={{ scale: 0.8, opacity: 0, y: 50 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.8, opacity: 0, y: 50 }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            className="relative max-w-5xl w-full max-h-[90vh] overflow-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            <Card className="border-0 shadow-2xl">
-              <CardHeader className="relative">
+            <Card className="border shadow-lg bg-white dark:bg-neutral-900 rounded-lg overflow-hidden">
+              <CardHeader className="relative bg-gradient-to-r from-emerald-50/50 to-emerald-100/30 dark:from-violet-900/10 dark:to-violet-800/5 p-6">
                 <Button
                   size="sm"
                   variant="outline"
-                  className="absolute top-4 right-4 h-8 w-8 p-0"
+                  className="absolute top-4 right-4 h-8 w-8 p-0 bg-white dark:bg-neutral-800 hover:bg-red-50 dark:hover:bg-red-900/20 border-red-200 dark:border-red-700 text-red-600 dark:text-red-400 rounded-md"
                   onClick={onClose}
                 >
                   <X className="h-4 w-4" />
                 </Button>
 
                 <div className="pr-12">
-                  <CardTitle className="text-2xl font-bold">
+                  <CardTitle className="text-xl sm:text-2xl font-semibold text-slate-900 dark:text-neutral-100 mb-2">
                     {work.title}
                   </CardTitle>
                   {work.description && (
-                    <CardDescription className="text-base mt-2">
+                    <CardDescription className="text-sm text-slate-600 dark:text-neutral-400">
                       {work.description}
                     </CardDescription>
                   )}
                 </div>
 
                 <div className="flex flex-wrap gap-2 mt-4">
-                  <Badge variant="secondary" className="text-sm">
-                    <FileImage className="mr-2 h-4 w-4" />
+                  <Badge className="text-xs px-3 py-1 bg-white dark:bg-neutral-800 text-slate-700 dark:text-neutral-300 rounded-md">
+                    <FileImage className="mr-1 h-3 w-3" />
                     Original Image
                   </Badge>
                   {work.svg_data && (
-                    <Badge variant="default" className="text-sm">
-                      <Code className="mr-2 h-4 w-4" />
+                    <Badge className="text-xs px-3 py-1 bg-emerald-100 dark:bg-violet-900/50 text-emerald-700 dark:text-violet-300 rounded-md">
+                      <Code className="mr-1 h-3 w-3" />
                       SVG Available
                     </Badge>
                   )}
                 </div>
               </CardHeader>
 
-              <CardContent>
+              <CardContent className="p-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   {/* Original Image */}
                   <div className="space-y-4">
-                    <h3 className="text-lg font-semibold flex items-center gap-2">
-                      <FileImage className="h-5 w-5" />
+                    <h3 className="text-lg font-semibold text-slate-900 dark:text-neutral-100 flex items-center gap-2">
+                      <div className="w-2 h-2 bg-emerald-500 dark:bg-violet-500 rounded-full"></div>
                       Original Image
                     </h3>
-                    <div className="relative aspect-square rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800">
+                    <div className="relative aspect-square rounded-lg overflow-hidden bg-slate-50 dark:bg-neutral-800 border">
                       <Image
                         src={work.original_image_url}
                         alt={work.title}
                         fill
-                        className="object-contain"
+                        className="object-contain p-3"
                         sizes="(max-width: 768px) 100vw, 50vw"
                       />
                     </div>
@@ -120,28 +121,32 @@ export function WorkViewer({
                   {/* SVG Preview */}
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
-                      <h3 className="text-lg font-semibold flex items-center gap-2">
-                        <Code className="h-5 w-5" />
+                      <h3 className="text-lg font-semibold text-slate-900 dark:text-neutral-100 flex items-center gap-2">
+                        <div className="w-2 h-2 bg-emerald-500 dark:bg-violet-500 rounded-full"></div>
                         SVG Output
                       </h3>
                       {work.svg_data && (
-                        <Button onClick={handleDownload} size="sm">
-                          <Download className="mr-2 h-4 w-4" />
-                          Download SVG
+                        <Button 
+                          onClick={handleDownload} 
+                          size="sm"
+                          className="bg-emerald-600 hover:bg-emerald-700 dark:bg-violet-600 dark:hover:bg-violet-700 text-white rounded-md px-4 py-2 text-sm"
+                        >
+                          <Download className="mr-1 h-4 w-4" />
+                          Download
                         </Button>
                       )}
                     </div>
 
-                    <div className="relative aspect-square rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+                    <div className="relative aspect-square rounded-lg overflow-hidden bg-slate-50 dark:bg-neutral-800 border flex items-center justify-center">
                       {work.svg_data ? (
                         <div
-                          className="w-full h-full"
+                          className="w-full h-full p-3 flex items-center justify-center"
                           dangerouslySetInnerHTML={{ __html: work.svg_data }}
                         />
                       ) : (
-                        <div className="text-center text-muted-foreground">
-                          <Code className="h-12 w-12 mx-auto mb-2 opacity-50" />
-                          <p>SVG conversion in progress...</p>
+                        <div className="text-center text-slate-600 dark:text-neutral-400">
+                          <Code className="h-12 w-12 mx-auto mb-2 text-emerald-500 dark:text-violet-500 opacity-60" />
+                          <p className="text-sm">Processing...</p>
                         </div>
                       )}
                     </div>
@@ -149,36 +154,48 @@ export function WorkViewer({
                 </div>
 
                 {/* Metadata */}
-                <div className="mt-8 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
-                  <h4 className="text-md font-semibold mb-3">Work Details</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                    <div className="flex items-center gap-2">
-                      <Calendar className="h-4 w-4 text-muted-foreground" />
-                      <span className="text-muted-foreground">Created:</span>
-                      <span>{formatDate(work.created_at)}</span>
+                <div className="mt-8 p-4 bg-slate-50/50 dark:bg-neutral-800/50 rounded-lg border">
+                  <h4 className="text-lg font-semibold text-slate-900 dark:text-neutral-100 mb-4">Work Details</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="flex items-center gap-3 p-3 bg-white dark:bg-neutral-900 rounded-md border">
+                      <Calendar className="h-4 w-4 text-emerald-600 dark:text-violet-500" />
+                      <div>
+                        <span className="text-slate-600 dark:text-neutral-400 text-sm">Created:</span>
+                        <p className="text-sm font-medium text-slate-900 dark:text-neutral-100">{formatDate(work.created_at)}</p>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <Calendar className="h-4 w-4 text-muted-foreground" />
-                      <span className="text-muted-foreground">Updated:</span>
-                      <span>{formatDate(work.updated_at)}</span>
+                    <div className="flex items-center gap-3 p-3 bg-white dark:bg-neutral-900 rounded-md border">
+                      <Calendar className="h-4 w-4 text-emerald-600 dark:text-violet-500" />
+                      <div>
+                        <span className="text-slate-600 dark:text-neutral-400 text-sm">Updated:</span>
+                        <p className="text-sm font-medium text-slate-900 dark:text-neutral-100">{formatDate(work.updated_at)}</p>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <User className="h-4 w-4 text-muted-foreground" />
-                      <span className="text-muted-foreground">ID:</span>
-                      <span className="font-mono text-xs">{work.id}</span>
+                    <div className="flex items-center gap-3 p-3 bg-white dark:bg-neutral-900 rounded-md border">
+                      <User className="h-4 w-4 text-emerald-600 dark:text-violet-500" />
+                      <div>
+                        <span className="text-slate-600 dark:text-neutral-400 text-sm">ID:</span>
+                        <p className="font-mono text-xs font-medium text-slate-900 dark:text-neutral-100">{work.id}</p>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <FileImage className="h-4 w-4 text-muted-foreground" />
-                      <span className="text-muted-foreground">Status:</span>
-                      <span
-                        className={
-                          work.svg_data
-                            ? "text-green-600 dark:text-green-400"
-                            : "text-amber-600 dark:text-amber-400"
-                        }
-                      >
-                        {work.svg_data ? "Processed" : "Processing"}
-                      </span>
+                    <div className="flex items-center gap-3 p-3 bg-white dark:bg-neutral-900 rounded-md border">
+                      <FileImage className="h-4 w-4 text-emerald-600 dark:text-violet-500" />
+                      <div>
+                        <span className="text-slate-600 dark:text-neutral-400 text-sm">Status:</span>
+                        <div className="flex items-center gap-2">
+                          {work.svg_data ? (
+                            <>
+                              <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                              <span className="text-sm font-medium text-emerald-600 dark:text-emerald-400">Processed</span>
+                            </>
+                          ) : (
+                            <>
+                              <div className="w-2 h-2 bg-amber-500 rounded-full"></div>
+                              <span className="text-sm font-medium text-amber-600 dark:text-amber-400">Processing</span>
+                            </>
+                          )}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
