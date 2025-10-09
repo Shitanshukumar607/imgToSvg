@@ -1,6 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { createClient } from "@/lib/supabase/client";
+import { useUser } from "@/store/userStore";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   AlertCircle,
@@ -12,6 +14,7 @@ import {
   Upload,
   X,
 } from "lucide-react";
+import { title } from "process";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 interface UploadedFile {
@@ -37,6 +40,10 @@ export default function UploadPage() {
   const [copySuccess, setCopySuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const supabase = createClient();
+
+  const user = useUser();
 
   useEffect(() => {
     return () => {
@@ -85,7 +92,7 @@ export default function UploadPage() {
       setError(null);
       setSvgResult(null);
     },
-    [setError, setUploadedFiles, setSvgResult],
+    [setError, setUploadedFiles, setSvgResult]
   );
 
   const handleDrop = useCallback(
@@ -98,7 +105,7 @@ export default function UploadPage() {
         handleFiles(files);
       }
     },
-    [handleFiles],
+    [handleFiles]
   );
 
   const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
@@ -144,6 +151,8 @@ export default function UploadPage() {
       setUploadedFiles([{ ...file, progress }]);
     };
 
+    let data;
+
     try {
       updateProgress(20);
 
@@ -159,7 +168,7 @@ export default function UploadPage() {
 
       updateProgress(80);
 
-      const data: ApiResponse = await res.json();
+      data = await res.json();
       console.log(data);
 
       updateProgress(100);
@@ -174,6 +183,15 @@ export default function UploadPage() {
       setError("Failed to upload image. Please try again.");
     } finally {
       setIsUploading(false);
+
+      if (user?.id) {
+        await supabase.from("works").insert({
+          user_id: user.id,
+          title: file.name,
+          original_image_url: data.url,
+          svg_data: data.svg,
+        });
+      }
     }
   };
 
@@ -223,7 +241,7 @@ export default function UploadPage() {
       if (!/viewBox=/.test(svg)) {
         svg = svg.replace(
           /<svg([^>]*)>/,
-          `<svg$1 viewBox="0 0 ${width} ${height}">`,
+          `<svg$1 viewBox="0 0 ${width} ${height}">`
         );
       }
     }
@@ -398,8 +416,8 @@ export default function UploadPage() {
                       {file.progress === 0
                         ? "Ready to convert"
                         : file.progress < 100
-                          ? `Converting... ${file.progress}%`
-                          : "Conversion complete!"}
+                        ? `Converting... ${file.progress}%`
+                        : "Conversion complete!"}
                     </span>
                     {file.progress === 100 && !isUploading && (
                       <motion.div
