@@ -178,7 +178,9 @@ const CollectionsPage = () => {
             className="text-slate-600 dark:text-neutral-400 mb-8"
           >
             {totalCount > 0
-              ? `${totalCount} work${totalCount !== 1 ? "s" : ""} in your collection`
+              ? `${totalCount} work${
+                  totalCount !== 1 ? "s" : ""
+                } in your collection`
               : "Your creative works will appear here"}
           </motion.p>
 

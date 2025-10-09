@@ -64,17 +64,17 @@ export function CollectionsPageSkeleton() {
           <div className="h-8 bg-gradient-to-r from-emerald-200 to-emerald-300 dark:from-violet-700 dark:to-violet-600 rounded-full animate-pulse w-48 mx-auto relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 dark:via-violet-400/30 to-transparent animate-shimmer" />
           </div>
-          
+
           {/* Title skeleton */}
           <div className="h-16 bg-gradient-to-r from-slate-200 to-slate-300 dark:from-neutral-700 dark:to-neutral-600 rounded-2xl animate-pulse w-96 mx-auto relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 dark:via-neutral-500/30 to-transparent animate-shimmer" />
           </div>
-          
+
           {/* Subtitle skeleton */}
           <div className="h-6 bg-gradient-to-r from-slate-200 to-slate-300 dark:from-neutral-700 dark:to-neutral-600 rounded-xl animate-pulse w-80 mx-auto relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 dark:via-neutral-500/30 to-transparent animate-shimmer" />
           </div>
-          
+
           {/* Button skeleton */}
           <div className="h-12 bg-gradient-to-r from-emerald-200 to-emerald-300 dark:from-violet-700 dark:to-violet-600 rounded-xl animate-pulse w-48 mx-auto relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 dark:via-violet-400/30 to-transparent animate-shimmer" />

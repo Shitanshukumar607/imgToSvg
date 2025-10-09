@@ -68,7 +68,9 @@ export function Pagination({
         {getPageNumbers().map((page, index) => (
           <div key={index}>
             {page === "..." ? (
-              <span className="px-4 py-2 text-slate-500 dark:text-neutral-400 font-semibold">...</span>
+              <span className="px-4 py-2 text-slate-500 dark:text-neutral-400 font-semibold">
+                ...
+              </span>
             ) : (
               <Button
                 variant={currentPage === page ? "default" : "outline"}

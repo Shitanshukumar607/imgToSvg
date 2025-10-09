@@ -126,8 +126,8 @@ export function WorkViewer({
                         SVG Output
                       </h3>
                       {work.svg_data && (
-                        <Button 
-                          onClick={handleDownload} 
+                        <Button
+                          onClick={handleDownload}
                           size="sm"
                           className="bg-emerald-600 hover:bg-emerald-700 dark:bg-violet-600 dark:hover:bg-violet-700 text-white rounded-md px-4 py-2 text-sm"
                         >
@@ -155,43 +155,63 @@ export function WorkViewer({
 
                 {/* Metadata */}
                 <div className="mt-8 p-4 bg-slate-50/50 dark:bg-neutral-800/50 rounded-lg border">
-                  <h4 className="text-lg font-semibold text-slate-900 dark:text-neutral-100 mb-4">Work Details</h4>
+                  <h4 className="text-lg font-semibold text-slate-900 dark:text-neutral-100 mb-4">
+                    Work Details
+                  </h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="flex items-center gap-3 p-3 bg-white dark:bg-neutral-900 rounded-md border">
                       <Calendar className="h-4 w-4 text-emerald-600 dark:text-violet-500" />
                       <div>
-                        <span className="text-slate-600 dark:text-neutral-400 text-sm">Created:</span>
-                        <p className="text-sm font-medium text-slate-900 dark:text-neutral-100">{formatDate(work.created_at)}</p>
+                        <span className="text-slate-600 dark:text-neutral-400 text-sm">
+                          Created:
+                        </span>
+                        <p className="text-sm font-medium text-slate-900 dark:text-neutral-100">
+                          {formatDate(work.created_at)}
+                        </p>
                       </div>
                     </div>
                     <div className="flex items-center gap-3 p-3 bg-white dark:bg-neutral-900 rounded-md border">
                       <Calendar className="h-4 w-4 text-emerald-600 dark:text-violet-500" />
                       <div>
-                        <span className="text-slate-600 dark:text-neutral-400 text-sm">Updated:</span>
-                        <p className="text-sm font-medium text-slate-900 dark:text-neutral-100">{formatDate(work.updated_at)}</p>
+                        <span className="text-slate-600 dark:text-neutral-400 text-sm">
+                          Updated:
+                        </span>
+                        <p className="text-sm font-medium text-slate-900 dark:text-neutral-100">
+                          {formatDate(work.updated_at)}
+                        </p>
                       </div>
                     </div>
                     <div className="flex items-center gap-3 p-3 bg-white dark:bg-neutral-900 rounded-md border">
                       <User className="h-4 w-4 text-emerald-600 dark:text-violet-500" />
                       <div>
-                        <span className="text-slate-600 dark:text-neutral-400 text-sm">ID:</span>
-                        <p className="font-mono text-xs font-medium text-slate-900 dark:text-neutral-100">{work.id}</p>
+                        <span className="text-slate-600 dark:text-neutral-400 text-sm">
+                          ID:
+                        </span>
+                        <p className="font-mono text-xs font-medium text-slate-900 dark:text-neutral-100">
+                          {work.id}
+                        </p>
                       </div>
                     </div>
                     <div className="flex items-center gap-3 p-3 bg-white dark:bg-neutral-900 rounded-md border">
                       <FileImage className="h-4 w-4 text-emerald-600 dark:text-violet-500" />
                       <div>
-                        <span className="text-slate-600 dark:text-neutral-400 text-sm">Status:</span>
+                        <span className="text-slate-600 dark:text-neutral-400 text-sm">
+                          Status:
+                        </span>
                         <div className="flex items-center gap-2">
                           {work.svg_data ? (
                             <>
                               <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
-                              <span className="text-sm font-medium text-emerald-600 dark:text-emerald-400">Processed</span>
+                              <span className="text-sm font-medium text-emerald-600 dark:text-emerald-400">
+                                Processed
+                              </span>
                             </>
                           ) : (
                             <>
                               <div className="w-2 h-2 bg-amber-500 rounded-full"></div>
-                              <span className="text-sm font-medium text-amber-600 dark:text-amber-400">Processing</span>
+                              <span className="text-sm font-medium text-amber-600 dark:text-amber-400">
+                                Processing
+                              </span>
                             </>
                           )}
                         </div>
