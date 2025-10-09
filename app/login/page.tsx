@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { createClient } from "@/lib/supabase/client";
+import { useUserStore } from "@/store/userStore";
 import Image from "next/image";
 import type { Provider } from "@supabase/supabase-js";
 import Link from "next/link";
@@ -26,47 +27,63 @@ import { useState } from "react";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
+  const { setUser, setLoading, setError, isLoading, error } = useUserStore();
   const supabase = createClient();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
+    setLoading(true);
     setError(null);
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-      if (error) throw error;
+      const { data, error: authError } = await supabase.auth.signInWithPassword(
+        {
+          email,
+          password,
+        },
+      );
+
+      if (authError) throw authError;
+
+      if (data.user) {
+        setUser({
+          id: data.user.id,
+          email: data.user.email!,
+          name:
+            data.user.user_metadata?.name || data.user.user_metadata?.full_name,
+          avatar_url: data.user.user_metadata?.avatar_url,
+          provider: "email",
+          created_at: data.user.created_at,
+          updated_at: data.user.updated_at || data.user.created_at,
+        });
+      }
+
       router.push("/");
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
   const handleOAuthLogin = async (provider: Provider) => {
-    setIsLoading(true);
+    setLoading(true);
     setError(null);
 
     try {
-      const { error } = await supabase.auth.signInWithOAuth({
+      const { error: authError } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-          redirectTo: `${window.location.origin}`,
+          redirectTo: `${window.location.origin}/auth/callback`,
         },
       });
-      if (error) throw error;
+      if (authError) throw authError;
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
@@ -98,6 +115,7 @@ const Login = () => {
                       variant="outline"
                       type="button"
                       className="border-emerald-200 text-slate-700 hover:bg-emerald-50 hover:border-emerald-300 dark:border-violet-400/40 dark:text-neutral-300 dark:hover:bg-violet-500/10 dark:hover:border-violet-400"
+                      disabled={isLoading}
                     >
                       <Image
                         width="24"
@@ -112,6 +130,7 @@ const Login = () => {
                       variant="outline"
                       type="button"
                       className="border-emerald-200 text-slate-700 hover:bg-emerald-50 hover:border-emerald-300 dark:border-violet-400/40 dark:text-neutral-300 dark:hover:bg-violet-500/10 dark:hover:border-violet-400"
+                      disabled={isLoading}
                     >
                       <GoogleIcon className="size-8" />
                       Login with Google
@@ -129,6 +148,7 @@ const Login = () => {
                       required
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
+                      disabled={isLoading}
                     />
                   </Field>
                   <Field>
@@ -147,6 +167,7 @@ const Login = () => {
                       required
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
+                      disabled={isLoading}
                     />
                   </Field>
                   {error && <p className="text-sm text-red-500">{error}</p>}
