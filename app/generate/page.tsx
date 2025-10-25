@@ -14,7 +14,6 @@ import {
   Upload,
   X,
 } from "lucide-react";
-import { title } from "process";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 interface UploadedFile {
@@ -23,13 +22,6 @@ interface UploadedFile {
   size: string;
   progress: number;
   preview: string;
-}
-
-interface ApiResponse {
-  url: string;
-  svg: string;
-  success: boolean;
-  error?: string;
 }
 
 export default function UploadPage() {

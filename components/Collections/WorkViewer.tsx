@@ -1,6 +1,5 @@
 "use client";
 
-import { Work } from "@/types/work";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,10 +8,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { X, Download, FileImage, Code, Calendar, User } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { Work } from "@/types/work";
+import { AnimatePresence, motion } from "framer-motion";
+import { Code, Download, X, Copy } from "lucide-react";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 interface WorkViewerProps {
   work: Work | null;
@@ -27,6 +27,19 @@ export function WorkViewer({
   onClose,
   onDownload,
 }: WorkViewerProps) {
+  useEffect(() => {
+    const handleEsc = (event: KeyboardEvent) => {
+      if (isOpen && event.key === "Escape") {
+        onClose();
+      }
+    };
+
+    document.addEventListener("keydown", handleEsc);
+    return () => {
+      document.removeEventListener("keydown", handleEsc);
+    };
+  }, [isOpen, onClose]);
+
   if (!work) return null;
 
   const handleDownload = () => {
@@ -35,14 +48,21 @@ export function WorkViewer({
     }
   };
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    if (!work?.svg_data) return;
+
+    const text = work.svg_data;
+
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+      return;
+    } catch (e) {
+      console.error("Copy failed", e);
+    }
   };
 
   return (
@@ -75,26 +95,13 @@ export function WorkViewer({
                 </Button>
 
                 <div className="pr-12">
-                  <CardTitle className="text-xl sm:text-2xl font-semibold text-slate-900 dark:text-neutral-100 mb-2">
+                  <CardTitle className="text-xl sm:text-2xl font-semibold text-slate-900 dark:text-neutral-100">
                     {work.title}
                   </CardTitle>
                   {work.description && (
                     <CardDescription className="text-sm text-slate-600 dark:text-neutral-400">
                       {work.description}
                     </CardDescription>
-                  )}
-                </div>
-
-                <div className="flex flex-wrap gap-2 mt-4">
-                  <Badge className="text-xs px-3 py-1 bg-white dark:bg-neutral-800 text-slate-700 dark:text-neutral-300 rounded-md">
-                    <FileImage className="mr-1 h-3 w-3" />
-                    Original Image
-                  </Badge>
-                  {work.svg_data && (
-                    <Badge className="text-xs px-3 py-1 bg-emerald-100 dark:bg-violet-900/50 text-emerald-700 dark:text-violet-300 rounded-md">
-                      <Code className="mr-1 h-3 w-3" />
-                      SVG Available
-                    </Badge>
                   )}
                 </div>
               </CardHeader>
@@ -126,14 +133,26 @@ export function WorkViewer({
                         SVG Output
                       </h3>
                       {work.svg_data && (
-                        <Button
-                          onClick={handleDownload}
-                          size="sm"
-                          className="bg-emerald-600 hover:bg-emerald-700 dark:bg-violet-600 dark:hover:bg-violet-700 text-white rounded-md px-4 py-2 text-sm"
-                        >
-                          <Download className="mr-1 h-4 w-4" />
-                          Download
-                        </Button>
+                        <div className="flex items-center gap-2">
+                          <Button
+                            onClick={handleCopy}
+                            size="sm"
+                            variant="outline"
+                            className="bg-slate-50 hover:bg-slate-100 dark:bg-neutral-800 dark:hover:bg-neutral-700 text-slate-700 dark:text-neutral-200 rounded-md px-3 py-2 text-sm"
+                          >
+                            <Copy className="mr-1 h-4 w-4" />
+                            {copied ? "Copied!" : "Copy"}
+                          </Button>
+
+                          <Button
+                            onClick={handleDownload}
+                            size="sm"
+                            className="bg-emerald-600 hover:bg-emerald-700 dark:bg-violet-600 dark:hover:bg-violet-700 text-white rounded-md px-4 py-2 text-sm"
+                          >
+                            <Download className="mr-1 h-4 w-4" />
+                            Download
+                          </Button>
+                        </div>
                       )}
                     </div>
 
@@ -149,73 +168,6 @@ export function WorkViewer({
                           <p className="text-sm">Processing...</p>
                         </div>
                       )}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Metadata */}
-                <div className="mt-8 p-4 bg-slate-50/50 dark:bg-neutral-800/50 rounded-lg border">
-                  <h4 className="text-lg font-semibold text-slate-900 dark:text-neutral-100 mb-4">
-                    Work Details
-                  </h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="flex items-center gap-3 p-3 bg-white dark:bg-neutral-900 rounded-md border">
-                      <Calendar className="h-4 w-4 text-emerald-600 dark:text-violet-500" />
-                      <div>
-                        <span className="text-slate-600 dark:text-neutral-400 text-sm">
-                          Created:
-                        </span>
-                        <p className="text-sm font-medium text-slate-900 dark:text-neutral-100">
-                          {formatDate(work.created_at)}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3 p-3 bg-white dark:bg-neutral-900 rounded-md border">
-                      <Calendar className="h-4 w-4 text-emerald-600 dark:text-violet-500" />
-                      <div>
-                        <span className="text-slate-600 dark:text-neutral-400 text-sm">
-                          Updated:
-                        </span>
-                        <p className="text-sm font-medium text-slate-900 dark:text-neutral-100">
-                          {formatDate(work.updated_at)}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3 p-3 bg-white dark:bg-neutral-900 rounded-md border">
-                      <User className="h-4 w-4 text-emerald-600 dark:text-violet-500" />
-                      <div>
-                        <span className="text-slate-600 dark:text-neutral-400 text-sm">
-                          ID:
-                        </span>
-                        <p className="font-mono text-xs font-medium text-slate-900 dark:text-neutral-100">
-                          {work.id}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3 p-3 bg-white dark:bg-neutral-900 rounded-md border">
-                      <FileImage className="h-4 w-4 text-emerald-600 dark:text-violet-500" />
-                      <div>
-                        <span className="text-slate-600 dark:text-neutral-400 text-sm">
-                          Status:
-                        </span>
-                        <div className="flex items-center gap-2">
-                          {work.svg_data ? (
-                            <>
-                              <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
-                              <span className="text-sm font-medium text-emerald-600 dark:text-emerald-400">
-                                Processed
-                              </span>
-                            </>
-                          ) : (
-                            <>
-                              <div className="w-2 h-2 bg-amber-500 rounded-full"></div>
-                              <span className="text-sm font-medium text-amber-600 dark:text-amber-400">
-                                Processing
-                              </span>
-                            </>
-                          )}
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </div>

@@ -29,9 +29,9 @@ const CollectionsPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedWork, setSelectedWork] = useState<Work | null>(null);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
-  const [currentFilter, setCurrentFilter] = useState<
-    "all" | "processed" | "processing" | "recent" | "oldest"
-  >("all");
+  const [currentFilter, setCurrentFilter] = useState<"recent" | "oldest">(
+    "recent"
+  );
 
   const limit = 2;
 
@@ -96,12 +96,6 @@ const CollectionsPage = () => {
       (work.description &&
         work.description.toLowerCase().includes(searchTerm.toLowerCase()))
   );
-
-  const worksCount = {
-    all: works.length,
-    processed: works.filter((work) => work.svg_data).length,
-    processing: works.filter((work) => !work.svg_data).length,
-  };
 
   if (loading && works.length === 0) {
     return <CollectionsPageSkeleton />;
@@ -222,7 +216,6 @@ const CollectionsPage = () => {
               <WorksFilter
                 currentFilter={currentFilter}
                 onFilterChange={setCurrentFilter}
-                worksCount={worksCount}
               />
             </div>
           </motion.div>

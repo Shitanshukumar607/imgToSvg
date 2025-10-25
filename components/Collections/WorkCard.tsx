@@ -1,6 +1,7 @@
 "use client";
 
-import { Work } from "@/types/work";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -8,10 +9,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Download, Eye, Calendar, FileImage, Code } from "lucide-react";
+import { Work } from "@/types/work";
 import { motion } from "framer-motion";
+import { Calendar, Code, Download, Eye } from "lucide-react";
 import Image from "next/image";
 
 interface WorkCardProps {
@@ -49,7 +49,7 @@ export function WorkCard({ work, onDownload, onView }: WorkCardProps) {
       whileHover={{ y: -4 }}
       className="group"
     >
-      <Card className="overflow-hidden transition-all duration-300 hover:shadow-lg border-slate-200 dark:border-neutral-700 hover:border-emerald-300 dark:hover:border-violet-400">
+      <Card className="overflow-hidden transition-all duration-300 hover:shadow-lg border-slate-200 dark:border-neutral-700 hover:border-emerald-300 dark:hover:border-violet-400 pt-0">
         <div className="relative aspect-square overflow-hidden bg-slate-50 dark:bg-neutral-800">
           <Image
             src={work.original_image_url}
