@@ -33,7 +33,7 @@ const CollectionsPage = () => {
     "recent"
   );
 
-  const limit = 2;
+  const limit = 12;
 
   useEffect(() => {
     fetchWorks(currentPage);
@@ -147,19 +147,19 @@ const CollectionsPage = () => {
       <div className="absolute top-1/3 -left-6 w-24 h-24 border border-emerald-300 dark:border-violet-400/40 rounded-full opacity-30" />
       <div className="absolute bottom-1/4 -right-8 w-20 h-20 border border-emerald-300 dark:border-violet-400/40 rotate-12 opacity-30" />
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12"
+          className="text-center mb-8"
         >
           {/* Heading */}
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-3xl sm:text-4xl font-bold mb-4 text-slate-900 dark:text-neutral-100"
+            className="text-2xl sm:text-3xl font-bold mb-3 text-slate-900 dark:text-neutral-100"
           >
             My Collections
           </motion.h1>
@@ -169,7 +169,7 @@ const CollectionsPage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="text-slate-600 dark:text-neutral-400 mb-8"
+            className="text-slate-600 dark:text-neutral-400 mb-6 text-sm sm:text-base"
           >
             {totalCount > 0
               ? `${totalCount} work${
@@ -183,10 +183,10 @@ const CollectionsPage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="mb-8"
+            className="mb-4"
           >
             <Link href="/generate">
-              <Button className="gap-2 bg-emerald-600 text-white hover:bg-emerald-700 dark:bg-violet-600 dark:hover:bg-violet-700">
+              <Button className="gap-2 bg-emerald-600 text-white hover:bg-emerald-700 dark:bg-violet-600 dark:hover:bg-violet-700 py-2 px-4 rounded-lg">
                 <Plus className="h-4 w-4" />
                 Create New Work
               </Button>
@@ -200,7 +200,7 @@ const CollectionsPage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-8"
+            className="flex flex-col sm:flex-row gap-3 items-start sm:items-center mb-6"
           >
             <div className="relative flex-1 max-w-md">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -208,7 +208,7 @@ const CollectionsPage = () => {
                 placeholder="Search your works..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
+                className="pl-10 py-2"
               />
             </div>
 
@@ -271,7 +271,7 @@ const CollectionsPage = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
-              className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mb-12"
+              className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mb-8"
             >
               {filteredWorks.map((work, index) => (
                 <motion.div
@@ -323,14 +323,6 @@ const CollectionsPage = () => {
             </div>
           </div>
         )}
-
-        {/* Work Viewer Modal */}
-        <WorkViewer
-          work={selectedWork}
-          isOpen={isViewerOpen}
-          onClose={handleCloseViewer}
-          onDownload={handleDownload}
-        />
       </div>
     </section>
   );

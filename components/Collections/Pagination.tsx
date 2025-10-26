@@ -52,15 +52,15 @@ export function Pagination({
   if (totalPages <= 1) return null;
 
   return (
-    <div className="flex items-center justify-center space-x-3 bg-white/80 dark:bg-neutral-800/80 backdrop-blur-sm border border-emerald-200/50 dark:border-violet-500/30 rounded-2xl p-4 shadow-xl">
+    <div className="flex items-center justify-center space-x-2 bg-white/80 dark:bg-neutral-800/80 backdrop-blur-sm border border-emerald-200/50 dark:border-violet-500/30 rounded-2xl p-4 shadow-xl">
       <Button
         variant="outline"
-        size="lg"
+        size="default"
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage <= 1}
-        className="border-emerald-200 dark:border-violet-400/40 hover:bg-emerald-50 dark:hover:bg-violet-500/10 text-slate-700 dark:text-neutral-300 disabled:opacity-50 rounded-xl font-semibold px-6"
+        className="border-emerald-200 dark:border-violet-400/40 hover:bg-emerald-50 dark:hover:bg-violet-500/10 text-slate-700 dark:text-neutral-300 disabled:opacity-50 rounded-xl font-semibold px-4"
       >
-        <ChevronLeft className="h-5 w-5 mr-2" />
+        <ChevronLeft className="size-4 mr-1" />
         Previous
       </Button>
 
@@ -74,12 +74,12 @@ export function Pagination({
             ) : (
               <Button
                 variant={currentPage === page ? "default" : "outline"}
-                size="lg"
+                size="default"
                 onClick={() => onPageChange(page as number)}
                 className={
                   currentPage === page
-                    ? "bg-emerald-600 hover:bg-emerald-700 dark:bg-violet-600 dark:hover:bg-violet-700 text-white rounded-xl font-bold min-w-12 shadow-lg"
-                    : "border-emerald-200 dark:border-violet-400/40 hover:bg-emerald-50 dark:hover:bg-violet-500/10 text-slate-700 dark:text-neutral-300 rounded-xl font-semibold min-w-12"
+                    ? "bg-emerald-600 hover:bg-emerald-700 dark:bg-violet-600 dark:hover:bg-violet-700 text-white rounded-xl font-bold min-w-10 shadow-lg"
+                    : "border-emerald-200 dark:border-violet-400/40 hover:bg-emerald-50 dark:hover:bg-violet-500/10 text-slate-700 dark:text-neutral-300 rounded-xl font-semibold min-w-10"
                 }
               >
                 {page}
@@ -91,13 +91,13 @@ export function Pagination({
 
       <Button
         variant="outline"
-        size="lg"
+        size="default"
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage >= totalPages}
-        className="border-emerald-200 dark:border-violet-400/40 hover:bg-emerald-50 dark:hover:bg-violet-500/10 text-slate-700 dark:text-neutral-300 disabled:opacity-50 rounded-xl font-semibold px-6"
+        className="border-emerald-200 dark:border-violet-400/40 hover:bg-emerald-50 dark:hover:bg-violet-500/10 text-slate-700 dark:text-neutral-300 disabled:opacity-50 rounded-xl font-semibold px-4"
       >
         Next
-        <ChevronRight className="h-5 w-5 ml-2" />
+        <ChevronRight className="size-4 ml-1" />
       </Button>
     </div>
   );

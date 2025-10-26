@@ -27,6 +27,8 @@ export function WorkViewer({
   onClose,
   onDownload,
 }: WorkViewerProps) {
+  const [copied, setCopied] = useState(false);
+
   useEffect(() => {
     const handleEsc = (event: KeyboardEvent) => {
       if (isOpen && event.key === "Escape") {
@@ -47,8 +49,6 @@ export function WorkViewer({
       onDownload(work);
     }
   };
-
-  const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
     if (!work?.svg_data) return;
@@ -76,15 +76,15 @@ export function WorkViewer({
           onClick={onClose}
         >
           <motion.div
-            initial={{ scale: 0.8, opacity: 0, y: 50 }}
+            initial={{ scale: 0.9, opacity: 0, y: 30 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.8, opacity: 0, y: 50 }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="relative max-w-5xl w-full max-h-[90vh] overflow-auto"
+            exit={{ scale: 0.95, opacity: 0, y: 30 }}
+            transition={{ type: "spring", stiffness: 260, damping: 28 }}
+            className="relative max-w-3xl w-full max-h-[88vh] overflow-auto mx-4 sm:mx-0"
             onClick={(e) => e.stopPropagation()}
           >
-            <Card className="border shadow-lg bg-white dark:bg-neutral-900 rounded-lg overflow-hidden">
-              <CardHeader className="relative bg-gradient-to-r from-emerald-50/50 to-emerald-100/30 dark:from-violet-900/10 dark:to-violet-800/5 p-6">
+            <Card className="border shadow-lg bg-white dark:bg-neutral-900 rounded-xl overflow-hidden">
+              <CardHeader className="relative bg-gradient-to-r from-emerald-50/40 to-emerald-100/25 dark:from-violet-900/8 dark:to-violet-800/6 p-4">
                 <Button
                   size="sm"
                   variant="outline"
@@ -94,8 +94,8 @@ export function WorkViewer({
                   <X className="h-4 w-4" />
                 </Button>
 
-                <div className="pr-12">
-                  <CardTitle className="text-xl sm:text-2xl font-semibold text-slate-900 dark:text-neutral-100">
+                <div className="pr-8">
+                  <CardTitle className="text-lg sm:text-xl font-semibold text-slate-900 dark:text-neutral-100">
                     {work.title}
                   </CardTitle>
                   {work.description && (
@@ -106,15 +106,15 @@ export function WorkViewer({
                 </div>
               </CardHeader>
 
-              <CardContent className="p-6">
-                <div className="grid md:grid-cols-2 gap-6">
+              <CardContent className="p-4">
+                <div className="grid md:grid-cols-2 gap-4">
                   {/* Original Image */}
                   <div className="space-y-4">
                     <h3 className="text-lg font-semibold text-slate-900 dark:text-neutral-100 flex items-center gap-2">
                       <div className="w-2 h-2 bg-emerald-500 dark:bg-violet-500 rounded-full"></div>
                       Original Image
                     </h3>
-                    <div className="relative aspect-square rounded-lg overflow-hidden bg-slate-50 dark:bg-neutral-800 border">
+                    <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-slate-50 dark:bg-neutral-800 border">
                       <Image
                         src={work.original_image_url}
                         alt={work.title}
@@ -156,15 +156,15 @@ export function WorkViewer({
                       )}
                     </div>
 
-                    <div className="relative aspect-square rounded-lg overflow-hidden bg-slate-50 dark:bg-neutral-800 border flex items-center justify-center">
+                    <div className="relative aspect-[4/3] rounded-lg overflow-auto bg-slate-50 dark:bg-neutral-800 border flex items-center justify-center">
                       {work.svg_data ? (
                         <div
-                          className="w-full h-full p-3 flex items-center justify-center"
+                          className="w-full h-full p-2 flex items-center justify-center"
                           dangerouslySetInnerHTML={{ __html: work.svg_data }}
                         />
                       ) : (
                         <div className="text-center text-slate-600 dark:text-neutral-400">
-                          <Code className="h-12 w-12 mx-auto mb-2 text-emerald-500 dark:text-violet-500 opacity-60" />
+                          <Code className="h-10 w-10 mx-auto mb-2 text-emerald-500 dark:text-violet-500 opacity-60" />
                           <p className="text-sm">Processing...</p>
                         </div>
                       )}
