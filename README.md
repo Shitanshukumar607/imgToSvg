@@ -184,16 +184,7 @@ Response: {
 
 ## 📸 Screenshots
 
-> **Note:** Add your actual screenshots here after deployment
-
-### Home Page
-![Home Page](https://via.placeholder.com/800x400?text=Home+Page+Screenshot)
-
-### Upload & Convert
-![Upload Interface](https://via.placeholder.com/800x400?text=Upload+Interface)
-
-### SVG Preview & Download
-![Results Page](https://via.placeholder.com/800x400?text=SVG+Results)
+> **Coming Soon:** Screenshots will be added after deployment. In the meantime, check out the [live demo](https://imgtosvg.vercel.app) to see the app in action!
 
 ---
 
@@ -337,8 +328,8 @@ This project wouldn't be possible without these amazing open-source projects:
 
 ### Stay Connected
 - ⭐ Star this repo if you find it helpful!
-- 🐦 Share on Twitter
-- 📧 Contact: [Your Email or Social Media]
+- 🐦 Follow on Twitter/X
+- 💼 Connect on LinkedIn
 
 ---
 
