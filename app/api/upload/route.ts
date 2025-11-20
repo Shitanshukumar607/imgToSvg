@@ -41,10 +41,10 @@ export async function POST(req: Request) {
           (err, result) => {
             if (err || !result) return reject(err);
             resolve(result);
-          }
+          },
         );
         uploadStream.end(buffer);
-      }
+      },
     );
 
     const svgString = await cloudinaryToSVG(cloudinaryResponse.secure_url);
@@ -55,14 +55,14 @@ export async function POST(req: Request) {
         svg: svgString,
         success: true,
       },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (err: unknown) {
     console.error("Upload error:", err);
     const errorMessage = (err as Error)?.message || "Internal Server Error";
     return NextResponse.json(
       { success: false, error: errorMessage },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

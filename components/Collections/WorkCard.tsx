@@ -60,16 +60,6 @@ export function WorkCard({ work, onDownload, onView }: WorkCardProps) {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/2 opacity-0 group-hover:opacity-30 transition-opacity" />
 
-          {/* Status badges */}
-          <div className="absolute top-3 left-3 flex gap-2">
-            {work.svg_data && (
-              <Badge className="text-xs bg-emerald-100 dark:bg-violet-900/30 text-emerald-700 dark:text-violet-300 border-0 px-2 py-1">
-                <Code className="mr-1 h-3 w-3" />
-                Ready
-              </Badge>
-            )}
-          </div>
-
           {/* Action buttons - visible on hover */}
           <div className="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-200">
             <Button
