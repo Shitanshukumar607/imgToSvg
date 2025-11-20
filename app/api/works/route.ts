@@ -32,7 +32,7 @@ export async function GET(request: NextRequest) {
       console.error("Error fetching works:", worksError);
       return NextResponse.json(
         { error: "Failed to fetch works" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -46,7 +46,7 @@ export async function GET(request: NextRequest) {
       console.error("Error counting works:", countError);
       return NextResponse.json(
         { error: "Failed to count works" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -60,7 +60,7 @@ export async function GET(request: NextRequest) {
     console.error("Unexpected error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

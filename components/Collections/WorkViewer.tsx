@@ -83,7 +83,7 @@ export function WorkViewer({
       if (!/viewBox=/.test(svg)) {
         svg = svg.replace(
           /<svg([^>]*)>/,
-          `<svg$1 viewBox="0 0 ${width} ${height}">`
+          `<svg$1 viewBox="0 0 ${width} ${height}">`,
         );
       }
     }

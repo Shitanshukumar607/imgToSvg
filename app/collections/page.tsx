@@ -30,7 +30,7 @@ const CollectionsPage = () => {
   const [selectedWork, setSelectedWork] = useState<Work | null>(null);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
   const [currentFilter, setCurrentFilter] = useState<"recent" | "oldest">(
-    "recent"
+    "recent",
   );
 
   const limit = 12;
@@ -94,7 +94,7 @@ const CollectionsPage = () => {
     (work) =>
       work.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (work.description &&
-        work.description.toLowerCase().includes(searchTerm.toLowerCase()))
+        work.description.toLowerCase().includes(searchTerm.toLowerCase())),
   );
 
   if (loading && works.length === 0) {

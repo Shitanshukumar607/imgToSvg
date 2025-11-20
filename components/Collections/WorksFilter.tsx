@@ -90,12 +90,12 @@ export function applyFilter(works: Work[], filter: FilterOption): Work[] {
     case "recent":
       return [...works].sort(
         (a, b) =>
-          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
       );
     case "oldest":
       return [...works].sort(
         (a, b) =>
-          new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+          new Date(a.created_at).getTime() - new Date(b.created_at).getTime(),
       );
     default:
       return works;
