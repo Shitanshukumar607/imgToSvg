@@ -1,9 +1,9 @@
 import { v2 as cloudinary, UploadApiResponse } from "cloudinary";
-// @ts-expect-error: imagetracerjs has no TypeScript types
-import ImageTracer from "imagetracerjs";
 import { NextResponse } from "next/server";
-import fetch from "node-fetch";
-import sharp from "sharp";
+
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+const potrace = require("potrace");
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
@@ -11,29 +11,15 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET!,
 });
 
-async function cloudinaryToSVG(imageUrl: string, options = { scale: 5 }) {
-  const response = await fetch(imageUrl);
-  if (!response.ok)
-    throw new Error(`Failed to fetch image: ${response.statusText}`);
-  const buffer = Buffer.from(await response.arrayBuffer());
+async function cloudinaryToSVG(imageUrl: string) {
+  const svgString: string = await new Promise((resolve, reject) => {
+    potrace.posterize(imageUrl, (err: unknown, svg: string) => {
+      if (err) return reject(err);
+      resolve(svg);
+    });
+  });
 
-  const image = sharp(buffer).ensureAlpha(); // ensures RGBA format
-  const { width, height } = await image.metadata();
-
-  if (!width || !height) {
-    throw new Error("Unable to read image metadata.");
-  }
-
-  const raw = await image.raw().toBuffer();
-
-  const myImageData = {
-    width,
-    height,
-    data: raw,
-  };
-
-  const svgstring = ImageTracer.imagedataToSVG(myImageData, options);
-  return svgstring;
+  return svgString;
 }
 
 export async function POST(req: Request) {
@@ -55,10 +41,10 @@ export async function POST(req: Request) {
           (err, result) => {
             if (err || !result) return reject(err);
             resolve(result);
-          },
+          }
         );
         uploadStream.end(buffer);
-      },
+      }
     );
 
     const svgString = await cloudinaryToSVG(cloudinaryResponse.secure_url);
@@ -69,15 +55,14 @@ export async function POST(req: Request) {
         svg: svgString,
         success: true,
       },
-      { status: 201 },
+      { status: 201 }
     );
   } catch (err: unknown) {
     console.error("Upload error:", err);
-    const errorMessage =
-      err instanceof Error ? err.message : "Internal Server Error";
+    const errorMessage = (err as Error)?.message || "Internal Server Error";
     return NextResponse.json(
       { success: false, error: errorMessage },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
