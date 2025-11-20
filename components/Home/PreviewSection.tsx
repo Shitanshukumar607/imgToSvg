@@ -25,7 +25,7 @@ const PreviewSection = () => {
                   src="/input.jpg"
                   alt="Input Preview"
                   fill
-                  className="object-contain"
+                  className="object-contain bg-white"
                 />
               </div>
             </div>
@@ -43,7 +43,7 @@ const PreviewSection = () => {
                   src="/output.svg"
                   alt="Output Preview"
                   fill
-                  className="object-contain"
+                  className="object-contain bg-white"
                 />
               </div>
             </div>
