@@ -166,7 +166,7 @@ export default function UploadPage() {
       updateProgress(100);
 
       if (data.success && data.svg) {
-        setSvgResult(fixSvg(data.svg));
+        setSvgResult(data.svg);
       } else {
         setError(data.error || "Failed to convert image to SVG");
       }
@@ -213,32 +213,6 @@ export default function UploadPage() {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-  };
-
-  const fixSvg = (svg: string) => {
-    // get width/height
-    const widthMatch = svg.match(/width="(\d+)"/);
-    const heightMatch = svg.match(/height="(\d+)"/);
-
-    if (widthMatch && heightMatch) {
-      const width = widthMatch[1];
-      const height = heightMatch[1];
-
-      // make width/height to 100%
-      svg = svg
-        .replace(/width="[^"]*"/, 'width="100%"')
-        .replace(/height="[^"]*"/, 'height="100%"');
-
-      // add viewBox if missing
-      if (!/viewBox=/.test(svg)) {
-        svg = svg.replace(
-          /<svg([^>]*)>/,
-          `<svg$1 viewBox="0 0 ${width} ${height}">`,
-        );
-      }
-    }
-
-    return svg;
   };
 
   return (

@@ -19,7 +19,7 @@ Users can **preview**, **copy the SVG code**, or **download the file** to use an
 ## 🛠️ Tech Stack
 
 - **Frontend:** React / Next.js
-- **Vectorization:** [ImageTracer.js](https://github.com/jankovicsandras/imagetracerjs)
+- **Vectorization:** [Potrace](https://github.com/tooolbox/node-potrace)
 - **Styling:** TailwindCSS (or your chosen framework)
 
 ---

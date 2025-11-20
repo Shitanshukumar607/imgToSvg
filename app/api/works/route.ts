@@ -10,7 +10,6 @@ export async function GET(request: NextRequest) {
 
     const supabase = await createClient();
 
-    // Get the current user
     const {
       data: { user },
       error: authError,
@@ -20,7 +19,6 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Fetch works for the current user
     const { data: works, error: worksError } = await supabase
       .from("works")
       .select("*")
@@ -36,7 +34,6 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Get total count for pagination
     const { count, error: countError } = await supabase
       .from("works")
       .select("*", { count: "exact", head: true })
