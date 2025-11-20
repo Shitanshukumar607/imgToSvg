@@ -14,7 +14,7 @@ cloudinary.config({
 async function cloudinaryToSVG(imageUrl: string) {
   const svgString: string = await new Promise((resolve, reject) => {
     potrace.posterize(imageUrl, (err: unknown, svg: string) => {
-      if (err) return reject(err);
+      if (err) return reject(new Error(`Failed to convert image to SVG: ${(err as Error)?.message}`));
       resolve(svg);
     });
   });
