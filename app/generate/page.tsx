@@ -1,6 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { createClient } from "@/lib/supabase/client";
+import { useUser } from "@/store/userStore";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   AlertCircle,
@@ -22,13 +24,6 @@ interface UploadedFile {
   preview: string;
 }
 
-interface ApiResponse {
-  url: string;
-  svg: string;
-  success: boolean;
-  error?: string;
-}
-
 export default function UploadPage() {
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
   const [isDragActive, setIsDragActive] = useState(false);
@@ -37,6 +32,10 @@ export default function UploadPage() {
   const [copySuccess, setCopySuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const supabase = createClient();
+
+  const user = useUser();
 
   useEffect(() => {
     return () => {
@@ -144,6 +143,8 @@ export default function UploadPage() {
       setUploadedFiles([{ ...file, progress }]);
     };
 
+    let data;
+
     try {
       updateProgress(20);
 
@@ -159,7 +160,7 @@ export default function UploadPage() {
 
       updateProgress(80);
 
-      const data: ApiResponse = await res.json();
+      data = await res.json();
       console.log(data);
 
       updateProgress(100);
@@ -174,6 +175,15 @@ export default function UploadPage() {
       setError("Failed to upload image. Please try again.");
     } finally {
       setIsUploading(false);
+
+      if (user?.id) {
+        await supabase.from("works").insert({
+          user_id: user.id,
+          title: file.name,
+          original_image_url: data.url,
+          svg_data: data.svg,
+        });
+      }
     }
   };
 
